@@ -19,81 +19,116 @@
 
 using namespace std;
 
-// provo un altro metodo che mi stampa tutto il testo
-int main()
+using namespace std;
+
+void funzioneDue()
 {
-    ifstream fileInput("testi/maggio.txt");  // apertura file in lettura
-    if (fileInput.is_open()) {
-        string line;
-        while (getline(fileInput, line)) {
-            cout << line << endl;
-        }
-        fileInput.close();
-    }
+
+    ifstream fileInput("maggio.txt"); // apertura file in lettura
+    // ofstream fileOutput("output.txt"); // apertura file in scrittura
+
+    // variabili
+    string paragrafo = "";
     string riga;
-    string parola ="immobile";
-    string paragrafo="1";
+    string parola = "polvere";
+    int numeroRiga = 0;
+    int trovato;
 
-    int numeroRigaParolaTrovata = 0;
-
-    // ho provato questo metodo che mi stampa il paragrafo della parola cercata
-
-    /*while (getline(fileInput, riga)) {
-        numeroRigaParolaTrovata++;
-        paragrafo += riga + "\n";
-        cout << "Riga: " << numeroRigaParolaTrovata << " " << riga << endl;
-        if (numeroRigaParolaTrovata == 5) {
-            paragrafo += riga + "\n";
-            cout << "Riga: " << numeroRigaParolaTrovata << " " << riga << endl;
-            break;
+    while (getline(fileInput, riga))
+    {
+        numeroRiga++;
+        if (riga != "")
+        {
+            paragrafo += to_string(numeroRiga) + " - " + riga + "\n";
         }
-        else {
-            paragrafo += riga + "\n";
-            cout << "Riga: " << numeroRigaParolaTrovata << " " << riga << endl;
+        else
+        {
+            paragrafo = "";
         }
-        riga = paragrafo;
+
+        bool flag = false;                      // SE TROVO LA PAROLA IMPOSTO A TRUE
+        for (int i = 0; i < riga.length(); i++) // for tutta riga
+        {
+
+            for (int j = 0; j < parola.length(); j++) // for tutta parola
+            {
+
+                if (riga[i] == parola[j]) // se le lettere sono uguali
+                {
+                    if (j == parola.length() - 1 && ((riga[i + 1] == ' ') || (riga[i + 1] == '.') || (riga[i + 1] == ',') || (riga[i + 1] == '\n'))) // se le lettere sono uguali E sono all'ultima lettera della parola
+                    {
+                        flag = true; // PAROLA TROVATA
+
+                        trovato = numeroRiga;
+                        cout << paragrafo;
+                        while (getline(fileInput, riga))
+                        {
+                            numeroRiga++;
+                            if (riga == "")
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                cout << numeroRiga << " - " << riga << endl;
+                            }
+
+                            cout << endl;
+                        }
+                    }
+                    i++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        if (flag == true)
+        {
+            cout << "PAROLA TROVATA IN RIGA: " << trovato << endl;
+        }
     }
     fileInput.close();
-    return 0;*/
+}
 
-    while(paragrafo!= "16")
+int main()
+{
 
-        paragrafo += riga + "\n";
-    cout << "Riga: " << numeroRigaParolaTrovata << " " << riga << endl;;
+    cout << "quest'app puo' fare questo: " << endl;
+    cout << "1) trovare le righe contenenti la parola data" << endl;
+    cout << "2) trovare le righe contenenti la parola data e stampare il paragrafo" << endl;
+    cout << "3) fare un'analisi del paragrafo in cui la parola e' stata trovata (quanti spazi, quante parole, quanti simboli, quanti caratteri per ogni riga)" << endl;
+    cout << "4) stampa solo le righe pari" << endl;
+    cout << "0) EXIT" << endl;
 
-    while (getline(fileInput, riga)) {
+    int telecomando;
+
+    do
+    {
+        cin >> telecomando;
+
+        switch (telecomando)
         {
-            paragrafo += riga + "\n";
-            cout << "Riga: " << numeroRigaParolaTrovata << " " << riga << endl;
-            bool flag = false;                      // SE TROVO LA PAROLA IMPOSTO A TRUE
-            for (int i = 0; i < riga.length(); i++) // for tutta riga
-            {
-
-                for (int j = 0; j < parola.length(); j++) // for tutta parola
-                {
-
-                    if  (riga[i] == parola[j])// se le lettere sono uguali
-                    {
-                        if (j == parola.length() - 1) // se le lettere sono uguali E sono all'ultima lettera della parola
-                        {
-                            flag = true;
-                        }
-                        i++;
-                    }
-                    {
-                        break;
-                    }
-                }
-                if (flag)
-                    break;
-            }
-
-            if (flag)
-
-            {
-                cout << "PAROLA TROVATA IN RIGA: " << numeroRigaParolaTrovata << " - " << riga << endl;
-            }
+            case 1:
+                cout << "trova le righe contenenti la parola data" << endl;
+                break;
+            case 2:
+                cout << "trova le righe contenenti la parola data e stampa il paragrafo" << endl;
+                funzioneDue();
+                break;
+            case 3:
+                cout << "fai un'analisi del paragrafo in cui la parola è stata trovata" << endl;
+                break;
+            case 4:
+                cout << "stampa solo le righe pari" << endl;
+                break;
+            case 0:
+                cout << "EXIT" << endl;
+                break;
         }
-        fileInput.close();
-    }
+    } while (telecomando != 0);
+
+    return 0;
 }
